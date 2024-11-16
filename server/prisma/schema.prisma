@@ -7,14 +7,6 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-// model User {
-//   id        Int      @id @default(autoincrement())
-//   email     String   @unique
-//   password  String
-//   firstName String
-//   lastName  String
-//   createdAt DateTime @default(now())
-// }
 model User {
   id        Int         @id @default(autoincrement())
   firstName String
@@ -23,7 +15,7 @@ model User {
   password  String
   createdAt DateTime    @default(now())
 
-  // Add relation field for purchases
+
   purchases Purchase[]  @relation("UserPurchases")
 }
 
@@ -36,14 +28,6 @@ model Address {
   postal_code String
 }
 
-// model Product {
-//   id        Int      @id @default(autoincrement())
-//   name      String
-//   description  String
-//   cost    String
-//   filename  String?
-//   createdAt DateTime @default(now())
-// }
 model Product {
   id          Int         @id @default(autoincrement())
   name        String
@@ -52,7 +36,6 @@ model Product {
   filename    String?
   createdAt   DateTime    @default(now())
 
-  // Add relation field for purchases
   purchases   Purchase[]  @relation("ProductPurchases")
 }
 
@@ -62,7 +45,7 @@ model Purchase {
   productId Int
   userId    Int
   quantity  Int
-  totalCost Float    // Changed from Decimal to Float
+  totalCost Float    
   createdAt DateTime @default(now())
 
   product   Product  @relation("ProductPurchases", fields: [productId], references: [id])
