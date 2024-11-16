@@ -102,7 +102,7 @@ router.post('/create', upload.single('image'), async (req, res) => {
 
  
         if (!name || !description || !type || !cost) {
-            return res.status(400).json({ message: 'First name, last name, type, cost are required.' });
+            return res.status(400).json({ message: 'Name, description, cost are required.' });
         }
 
         const product = await prisma.product.findUnique({
