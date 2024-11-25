@@ -127,17 +127,4 @@ router.get('/getSession', (req, res) => {
 
 
 
-router.get('/address', async (req,res) => {
- 
-  const currentUserId = req.session.user_id;
-
-  const address = await prisma.address.findUnique({
-    where: {
-      id: currentUserId,
-    }
-  });
-
-  res.json(address);
-});
-
 export default router;

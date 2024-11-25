@@ -21,18 +21,6 @@ model User {
 
 
 
-
-model Address {
-  id          Int    @id @default(autoincrement())
-  street      String
-  city        String
-  province    String
-  country     String
-  postal_code String
-}
-
-
-
 model Product {
   id          Int         @id @default(autoincrement())
   name        String
