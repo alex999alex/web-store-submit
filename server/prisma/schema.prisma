@@ -68,7 +68,7 @@ model Purchase {
 }
 
 
-/
+
 model PurchaseItem {
   purchase_id Int
   product_id  Int
