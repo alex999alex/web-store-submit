@@ -1,39 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'; // Make sure to install js-cookie
+import Cookies from 'js-cookie';
 
 export default function Details() {
-  const { id } = useParams(); // Get the product ID from the URL
-  const [product, setProduct] = useState(null); // State to store product details
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch product details from the API
     const apiHost = import.meta.env.VITE_APP_HOST;
-    fetch(`${apiHost}/api/products/get/${id}`) // Adjust the endpoint as necessary
+    fetch(`${apiHost}/api/products/get/${id}`)
       .then(response => response.json())
       .then(data => setProduct(data))
       .catch(error => console.error('Error fetching product:', error));
   }, [id]);
 
   const addToCart = () => {
-    // Get the current cart from cookies
     const currentCart = Cookies.get('cart') ? Cookies.get('cart').split(',') : [];
     
-    // Add the current product ID to the cart
     currentCart.push(id);
     
-    // Save the updated cart back to cookies
-    Cookies.set('cart', currentCart.join(','), { expires: 7 }); // Expires in 7 days
+    Cookies.set('cart', currentCart.join(','), { expires: 7 });
     alert('Product added to cart!');
   };
 
   const goBack = () => {
-    navigate('/'); // Navigate back to the home page
+    navigate('/');
   };
 
   if (!product) {
-    return <p>Loading...</p>; // Show a loading message while fetching
+    return <p>Loading...</p>;
   }
 
   return (
