@@ -6,7 +6,7 @@ import Home from './routes/Home';
 import Signup from './routes/Signup';
 import Login from './routes/Login';
 import Logout from './routes/Logout';
-import Address from './routes/Address';
+// import Address from './routes/Address';
 import Details from './routes/Details'; // Import the Details page
 import Cart from './routes/Cart';
 import Checkout from './routes/Checkout';
@@ -61,10 +61,10 @@ const router = createBrowserRouter([
       },
 
 
-      {
-        path: "/address",
-        element: <Address />
-      },
+      // {
+      //   path: "/address",
+      //   element: <Address />
+      // },
     ]
   },
 ]);
