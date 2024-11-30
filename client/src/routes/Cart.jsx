@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie'; // Make sure to install js-cookie
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState([]); // State to store cart items
-  const [products, setProducts] = useState([]); // State to store product details
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const [cartItems, setCartItems] = useState([]);
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Get the cart from cookies
     const cart = Cookies.get('cart') ? Cookies.get('cart').split(',') : [];
-    
-    // Fetch product details for each product ID in the cart
     const apiHost = import.meta.env.VITE_APP_HOST;
 
-    // Fetch products based on unique IDs in the cart
     const fetchProducts = async () => {
-      const uniqueCartItems = [...new Set(cart)]; // Get unique product IDs
+      const uniqueCartItems = [...new Set(cart)];
       const productPromises = uniqueCartItems.map(id => 
         fetch(`${apiHost}/api/products/get/${id}`).then(response => response.json())
       );
 
       try {
         const productDetails = await Promise.all(productPromises);
-        console.log('Fetched Products:', productDetails); // Debugging log
-        setProducts(productDetails.filter(product => product)); // Filter out any undefined products
+        setProducts(productDetails.filter(product => product));
         setCartItems(cart);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -34,24 +29,22 @@ export default function Cart() {
     fetchProducts();
   }, []);
 
-  // Calculate the subtotal
   const calculateSubtotal = () => {
     return products.reduce((acc, product) => {
-      // Ensure ID comparison is correct (parse ID to int)
       const quantity = cartItems.filter(item => parseInt(item) === product.id).length;
-      return acc + (product.cost ? product.cost * quantity : 0); // Check if cost is defined
+      return acc + (product.cost ? product.cost * quantity : 0);
     }, 0);
   };
 
   const handleContinueShopping = () => {
-    navigate('/'); // Navigate back to the home page
+    navigate('/');
   };
 
   const handleCompletePurchase = () => {
-    navigate('/checkout'); // Navigate to the checkout page
+    navigate('/checkout');
   };
 
-  const uniqueProducts = [...new Set(cartItems)]; // Get unique product IDs
+  const uniqueProducts = [...new Set(cartItems)];
 
   return (
     <div className="cart-container">
@@ -61,11 +54,9 @@ export default function Cart() {
       ) : (
         <div>
           {uniqueProducts.map(id => {
-            const product = products.find(p => p.id === parseInt(id)); // Ensure ID is an integer
+            const product = products.find(p => p.id === parseInt(id));
             const quantity = cartItems.filter(item => item === id).length;
             const total = product ? product.cost * quantity : 0;
-
-            // Construct the image URL safely
             const imageUrl = product ? `${import.meta.env.VITE_APP_HOST}/api/images/${product.filename}` : '';
 
             return (
@@ -83,7 +74,7 @@ export default function Cart() {
                     <p>Total: ${total.toFixed(2)}</p>
                   </>
                 ) : (
-                  <p>Product not found for ID: {id}</p> // Handle case where product is not found
+                  <p>Product not found for ID: {id}</p>
                 )}
               </div>
             );
