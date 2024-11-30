@@ -1,20 +1,17 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from './App'; // Adjust the path as necessary
+import App from './App';
 import Home from './routes/Home';
 import Signup from './routes/Signup';
 import Login from './routes/Login';
 import Logout from './routes/Logout';
-// import Address from './routes/Address';
-import Details from './routes/Details'; // Import the Details page
+import Details from './routes/Details';
 import Cart from './routes/Cart';
 import Checkout from './routes/Checkout';
 import Confirmation from './routes/Confirmation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-
-
 
 const router = createBrowserRouter([
   {
@@ -25,13 +22,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />
       },
-
       {
-        path: "/details/:id", // Add the Details route here
+        path: "/details/:id",
         element: <Details />
       },
-
-
       {
         path: "/signup",
         element: <Signup />
@@ -44,34 +38,24 @@ const router = createBrowserRouter([
         path: "/logout",
         element: <Logout />
       },
-
       {
         path: "/Cart",
         element: <Cart />
       },
-
       {
         path: "/Checkout",
         element: <Checkout />
       },
-
       {
         path: "/Confirmation",
         element: <Confirmation />
       },
-
-
-      // {
-      //   path: "/address",
-      //   element: <Address />
-      // },
     ]
   },
 ]);
 
-  
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>
-)
+);
