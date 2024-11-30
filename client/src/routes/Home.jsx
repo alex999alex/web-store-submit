@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import Card from "../ui/Card"; // Assuming you store the Card in the ui folder
+import Card from "../ui/Card";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const apiHost = import.meta.env.VITE_APP_HOST || "http://localhost:3000";
-  const apiUrl = `${apiHost}/api/products/all`; // Assuming your API is fetching products
+  const apiUrl = `${apiHost}/api/products/all`;
 
   useEffect(() => {
     async function fetchData() {
