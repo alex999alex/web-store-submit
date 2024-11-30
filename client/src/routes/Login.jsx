@@ -3,17 +3,12 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function Login() {
- 
-  // react-hook-form
   const { register, handleSubmit, formState: { errors } } = useForm();
-
   const [loginFail, setLoginFail] = useState(false);
 
-  // form submit function
   async function formSubmit(data) {
-    // const url = 'http://localhost:3000/api/users/login';
     const apiHost = import.meta.env.VITE_APP_HOST || 'http://localhost:3000';
-      const url = `${apiHost}/api/users/session`;  // Construct the full URL
+    const url = `${apiHost}/api/users/session`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -21,11 +16,11 @@ export default function Login() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data),
-      credentials: 'include' // make fetch include cookies in the request
+      credentials: 'include'
     });
 
     if(response.ok){
-      window.location.href = '/'; // redirect to home page
+      window.location.href = '/';
     }
     else {
       setLoginFail(true);

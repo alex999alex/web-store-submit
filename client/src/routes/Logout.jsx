@@ -5,13 +5,12 @@ export default function Logout() {
   
   useEffect(() => {
     async function logout() {
-      // const url = "http://localhost:3000/api/users/logout";
       const apiHost = import.meta.env.VITE_APP_HOST || 'http://localhost:3000';
-      const url = `${apiHost}/api/users/session`;  // Construct the full URL
+      const url = `${apiHost}/api/users/session`;
       
       const response = await fetch(url, {
         method: "POST",
-        credentials: 'include' // inlcude cookies in request
+        credentials: 'include'
       });
 
       if(response.ok) {        

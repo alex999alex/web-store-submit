@@ -1,19 +1,41 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Signup() {
-
-  // react-hook-form
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [signupError, setSignupError] = useState(null);
+  const navigate = useNavigate();
 
-  // form submit function
   async function formSubmit(data) {
-    //to-d0
+    const apiHost = import.meta.env.VITE_APP_HOST || 'http://localhost:3000';
+    const url = `${apiHost}/api/users/signup`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        navigate('/login');
+      } else {
+        const errorData = await response.text();
+        setSignupError(errorData || "Signup failed. Please try again.");
+      }
+    } catch (error) {
+      setSignupError("Network error. Please try again.");
+    }
   }
 
   return (
     <>
       <h1>Signup</h1>
+      {signupError && <p className="text-danger">{signupError}</p>}
       <form onSubmit={handleSubmit(formSubmit)} method="post" className="w-25">
         <div className="mb-3">
           <label className="form-label">First Name</label>
