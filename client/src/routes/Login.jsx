@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const setIsLoggedIn = useOutletContext(); // Get setIsLoggedIn from Outlet context
+  const navigate = useNavigate(); // Hook for programmatically navigating
 
   const [loginFail, setLoginFail] = useState(false);
 
   async function formSubmit(data) {
     const apiHost = import.meta.env.VITE_APP_HOST || 'http://localhost:3000';
     const url = `${apiHost}/api/users/login`;
-  
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -20,11 +21,19 @@ export default function Login() {
       body: JSON.stringify(data),
       credentials: 'include'
     });
-  
-    if(response.ok){
+
+    if(response.ok) {
       localStorage.setItem('token', 'true'); // Store a simple token
       setIsLoggedIn(true);
-      window.location.href = '/'; // Redirect to home page
+
+      // Get the redirection path from localStorage (default to home if not set)
+      const redirectTo = localStorage.getItem('redirectTo') || '/';
+
+      // Clear the redirectTo after redirecting
+      localStorage.removeItem('redirectTo');
+
+      // Redirect to the stored path or home
+      navigate(redirectTo);
     } else {
       setLoginFail(true);
     }

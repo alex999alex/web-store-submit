@@ -3,6 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa'; // Import shopping cart icon
 
 const Nav = ({ isLoggedIn }) => {
+  // Get the cart items from localStorage (or your state management)
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0); // Sum up the quantity of all items
+
   const NavStyle = {
     width: '200px',
     backgroundColor: '#f4f4f4',
@@ -85,7 +89,24 @@ const Nav = ({ isLoggedIn }) => {
             style={linkStyle}
             activeStyle={activeLinkStyle}
           >
-            <FaShoppingCart /> 
+            <div style={{ position: 'relative', fontSize: '24px' }}>
+              <FaShoppingCart />
+              {/* Display the count in a badge */}
+              {cartCount > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-5px',
+                  right: '-5px',
+                  backgroundColor: '#ff0000',
+                  color: 'white',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '14px',
+                }}>
+                  {cartCount}
+                </span>
+              )}
+            </div>
           </NavLink>
         </li>
       </ul>
@@ -93,4 +114,4 @@ const Nav = ({ isLoggedIn }) => {
   );
 };
 
-export default Nav; //
+export default Nav;
