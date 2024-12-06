@@ -4,8 +4,8 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const setIsLoggedIn = useOutletContext(); // Get setIsLoggedIn from Outlet context
-  const navigate = useNavigate(); // Hook for programmatically navigating
+  const setIsLoggedIn = useOutletContext(); 
+  const navigate = useNavigate(); 
 
   const [loginFail, setLoginFail] = useState(false);
 
@@ -23,16 +23,16 @@ export default function Login() {
     });
 
     if(response.ok) {
-      localStorage.setItem('token', 'true'); // Store a simple token
+      localStorage.setItem('token', 'true'); 
       setIsLoggedIn(true);
 
-      // Get the redirection path from localStorage (default to home if not set)
+      
       const redirectTo = localStorage.getItem('redirectTo') || '/';
 
-      // Clear the redirectTo after redirecting
+      
       localStorage.removeItem('redirectTo');
 
-      // Redirect to the stored path or home
+      
       navigate(redirectTo);
     } else {
       setLoginFail(true);

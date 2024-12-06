@@ -1,6 +1,6 @@
-/* Card.css */
+
 .thumbnail {
-    width: 100px; /* Set the desired width */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Crop the image to fit the dimensions */
+    width: 100px; 
+    height: auto; 
+    object-fit: cover; 
   }

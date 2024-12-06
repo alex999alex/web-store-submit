@@ -24,17 +24,17 @@ export default function Details() {
   };
 
   const addToCart = () => {
-    // Get the current cart from cookies
+  
     const currentCart = Cookies.get('cart') ? Cookies.get('cart').split(',') : [];
     
-    // Add the current product ID multiple times based on quantity
+    
     const productToAdd = Array(quantity).fill(id.toString());
     
-    // Combine existing cart with new products
+   
     const updatedCart = [...currentCart, ...productToAdd];
     
-    // Save the updated cart back to cookies
-    Cookies.set('cart', updatedCart.join(','), { expires: 7 }); // Expires in 7 days
+    
+    Cookies.set('cart', updatedCart.join(','), { expires: 7 }); 
     
     alert(`${quantity} product(s) added to cart!`);
   };

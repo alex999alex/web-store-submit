@@ -2,21 +2,21 @@ import { Link } from "react-router-dom";
 
 export default function Card(props) {
   const apiHost = import.meta.env.VITE_APP_HOST;
-  const imageUrl = `${apiHost}/api/images/${props.product.filename}`; // Assuming the image filename is provided
+  const imageUrl = `${apiHost}/api/images/${props.product.filename}`; 
 
   return (
     <div className="card mb-3">
       <div className="card-body">
         <div className="d-flex align-items-center position-relative">
-          {/* Wrap the image in a Link to navigate to the Details page */}
+
           <Link to={`/details/${props.product.id}`}>
             <img 
               src={imageUrl} 
               alt={props.product.name} 
               style={{ 
-                width: '100px', // Set the desired width
-                height: 'auto', // Maintain aspect ratio
-                objectFit: 'cover' // Crop the image to fit the dimensions
+                width: '100px', 
+                height: 'auto', 
+                objectFit: 'cover' 
               }} 
             />
           </Link>

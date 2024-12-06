@@ -1,13 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from './App'; // Adjust the path as necessary
+import App from './App'; 
 import Home from './routes/Home';
 import Signup from './routes/Signup';
 import Login from './routes/Login';
 import Logout from './routes/Logout';
-// import Address from './routes/Address';
-import Details from './routes/Details'; // Import the Details page
+
+import Details from './routes/Details'; 
 import Cart from './routes/Cart';
 import Checkout from './routes/Checkout';
 import Confirmation from './routes/Confirmation';
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/details/:id", // Add the Details route here
+        path: "/details/:id", 
         element: <Details />
       },
 
@@ -61,10 +61,6 @@ const router = createBrowserRouter([
       },
 
 
-      // {
-      //   path: "/address",
-      //   element: <Address />
-      // },
     ]
   },
 ]);

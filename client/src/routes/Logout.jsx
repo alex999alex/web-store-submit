@@ -5,7 +5,7 @@ import { useOutletContext } from "react-router-dom";
 export default function Logout() {
   const [status, setStatus] = useState("Logging out...");
   const navigate = useNavigate();
-  const setIsLoggedIn = useOutletContext(); // Get setIsLoggedIn from Outlet context
+  const setIsLoggedIn = useOutletContext(); 
 
   useEffect(() => {
     async function logout() {
@@ -15,12 +15,12 @@ export default function Logout() {
       try {
         const response = await fetch(url, {
           method: "POST",
-          credentials: 'include', // Include cookies to clear session
+          credentials: 'include',
         });
 
         if (response.ok) {
-          localStorage.removeItem('token'); // Remove token from local storage
-          setIsLoggedIn(false); // Update login state in parent component
+          localStorage.removeItem('token'); 
+          setIsLoggedIn(false); 
           setStatus('You have been successfully logged out.');
         } else {
           setStatus('Error logging out. Please try again.');

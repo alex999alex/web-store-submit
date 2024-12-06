@@ -8,20 +8,20 @@ export default function Checkout() {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('token');
     
-    // If the user is not logged in, store the checkout page path and redirect to login
+  
     if (!isLoggedIn) {
       localStorage.setItem('redirectTo', '/checkout');
       navigate('/login');
     } else {
-      // If logged in, fetch cart items (example code, replace with your actual logic)
+ 
       const cartData = JSON.parse(localStorage.getItem('cart')) || [];
       setCartItems(cartData);
     }
   }, [navigate]);
 
-  // Handle the checkout process
+
   const handleCheckout = async () => {
-    // Example checkout logic (replace with your API call for processing the checkout)
+ 
     const response = await fetch('/api/checkout', {
       method: 'POST',
       body: JSON.stringify({ items: cartItems }),
@@ -31,11 +31,11 @@ export default function Checkout() {
     });
 
     if (response.ok) {
-      // After successful checkout, clear the cart and redirect to the confirmation page
+ 
       localStorage.removeItem('cart');
       navigate('/confirmation');
     } else {
-      // Handle checkout failure
+ 
       console.error('Checkout failed');
     }
   };

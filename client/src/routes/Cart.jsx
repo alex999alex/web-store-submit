@@ -7,9 +7,9 @@ export default function Cart() {
   const [products, setProducts] = useState([]); 
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const TAX_RATE = 0.15; // 15% tax rate
+  const TAX_RATE = 0.15; 
 
-  // Fetch cart and product details
+
   useEffect(() => {
     const cart = Cookies.get('cart') ? Cookies.get('cart').split(',') : [];
     const apiHost = import.meta.env.VITE_APP_HOST;
@@ -32,7 +32,7 @@ export default function Cart() {
     fetchProducts();
   }, []);
 
-  // Fetch user session
+
   useEffect(() => {
     const apiHost = import.meta.env.VITE_APP_HOST;
     const fetchUserSession = async () => {
@@ -52,7 +52,7 @@ export default function Cart() {
     fetchUserSession();
   }, []);
 
-  // Update cart in cookies
+
   const updateCartInCookies = (newCart) => {
     if (newCart.length > 0) {
       Cookies.set('cart', newCart.join(','));
@@ -62,24 +62,24 @@ export default function Cart() {
     setCartItems(newCart);
   };
 
-  // Adjust product quantity
+
   const adjustQuantity = (productId, change) => {
     const stringId = productId.toString();
     const currentCart = [...cartItems];
     const index = currentCart.indexOf(stringId);
     
     if (change > 0) {
-      // Add product
+  
       currentCart.push(stringId);
     } else if (change < 0 && index !== -1) {
-      // Remove product
+  
       currentCart.splice(index, 1);
     }
     
     updateCartInCookies(currentCart);
   };
 
-  // Calculate totals
+ 
   const calculateTotals = () => {
     const subtotal = products.reduce((acc, product) => {
       const quantity = cartItems.filter(item => parseInt(item) === product.id).length;
@@ -92,7 +92,7 @@ export default function Cart() {
     return { subtotal, tax, total };
   };
 
-  // Handle logout
+
   const handleLogout = async () => {
     const apiHost = import.meta.env.VITE_APP_HOST;
     const response = await fetch(`${apiHost}/api/users/logout`, {
@@ -106,7 +106,7 @@ export default function Cart() {
     }
   };
 
-  // Render cart items
+ 
   const renderCartItems = () => {
     const uniqueProducts = [...new Set(cartItems)];
     const { subtotal, tax, total } = calculateTotals();

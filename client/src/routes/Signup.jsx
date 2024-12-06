@@ -4,11 +4,11 @@ import { useState } from "react";
 
 export default function Signup() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const navigate = useNavigate(); // For redirecting on success
+  const navigate = useNavigate(); 
 
-  const [signupError, setSignupError] = useState(""); // Error message state
+  const [signupError, setSignupError] = useState(""); 
 
-  // Form submit function
+  
   async function formSubmit(data) {
     const apiHost = import.meta.env.VITE_APP_HOST || "http://localhost:3000";
     const url = `${apiHost}/api/users/signup`;
@@ -23,11 +23,11 @@ export default function Signup() {
       });
 
       if (!response.ok) {
-        const errorResponse = await response.json(); // Get error details from server
+        const errorResponse = await response.json(); 
         setSignupError(errorResponse.message || "Signup failed. Please try again.");
       } else {
-        setSignupError(""); // Clear any existing errors
-        navigate("/login"); // Redirect to Login page
+        setSignupError(""); 
+        navigate("/login"); 
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -38,7 +38,7 @@ export default function Signup() {
   return (
     <>
       <h1>Signup</h1>
-      {signupError && <p className="text-danger">{signupError}</p>} {/* Display error message */}
+      {signupError && <p className="text-danger">{signupError}</p>} 
       <form onSubmit={handleSubmit(formSubmit)} method="post" className="w-25">
         <div className="mb-3">
           <label className="form-label">First Name</label>

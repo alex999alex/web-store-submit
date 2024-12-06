@@ -14,34 +14,34 @@ const __dirname = path.dirname(__filename);
 const port = process.env.PORT || 3000;
 const app = express();
 
-// middleware
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Serve static images
+
 app.use('/api/images', express.static(path.join(__dirname, 'public', 'api', 'images')));
 
-// cors middleware
+
 app.use(cors({
-  origin: 'http://localhost:5173', // react client
-  credentials: true // allow cookies
+  origin: 'http://localhost:5173', 
+  credentials: true 
 }));
 
-// express-session middleware
+
 app.use(session({
   secret: 'fkldjbnfdkFTFT5efd3$$sdg89F',
   resave: false,
   saveUninitialized: true,
   cookie: { 
     httpOnly: true,
-    secure: false,  // Set to `true` if using HTTPS in production
-    sameSite: 'lax',  // Consider 'none' if client and server are on different origins
-    maxAge: 3600000 // 1 hour in milliseconds
+    secure: false,  
+    sameSite: 'lax',  
+    maxAge: 3600000 
   }
 }));
 
-// routes
+
 app.use('/api/', homeRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
