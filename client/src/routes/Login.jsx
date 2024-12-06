@@ -1,15 +1,17 @@
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const setIsLoggedIn = useOutletContext(); // Get setIsLoggedIn from Outlet context
+
   const [loginFail, setLoginFail] = useState(false);
 
   async function formSubmit(data) {
     const apiHost = import.meta.env.VITE_APP_HOST || 'http://localhost:3000';
-    const url = `${apiHost}/api/users/session`;
-
+    const url = `${apiHost}/api/users/login`;
+  
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -18,15 +20,16 @@ export default function Login() {
       body: JSON.stringify(data),
       credentials: 'include'
     });
-
+  
     if(response.ok){
-      window.location.href = '/';
-    }
-    else {
+      localStorage.setItem('token', 'true'); // Store a simple token
+      setIsLoggedIn(true);
+      window.location.href = '/'; // Redirect to home page
+    } else {
       setLoginFail(true);
     }
   }
-  
+
   return (
     <>
       <h1>Login</h1>
@@ -43,9 +46,7 @@ export default function Login() {
           {errors.password && <span className="text-danger">{errors.password.message}</span>}
         </div>
         <button type="submit" className="btn btn-primary">Login</button>
-        <Link to="/" className="btn btn-outline-dark ms-2">Cancel</Link>
       </form>
-      <p className="mt-4">Don't have an account. <Link to="/signup">Sign-up</Link> now.</p>
     </>
-  )
+  );
 }

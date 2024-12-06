@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 export default function Details() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,13 +16,27 @@ export default function Details() {
       .catch(error => console.error('Error fetching product:', error));
   }, [id]);
 
+  const adjustQuantity = (change) => {
+    setQuantity(prevQuantity => {
+      const newQuantity = prevQuantity + change;
+      return newQuantity < 1 ? 1 : newQuantity;
+    });
+  };
+
   const addToCart = () => {
+    // Get the current cart from cookies
     const currentCart = Cookies.get('cart') ? Cookies.get('cart').split(',') : [];
     
-    currentCart.push(id);
+    // Add the current product ID multiple times based on quantity
+    const productToAdd = Array(quantity).fill(id.toString());
     
-    Cookies.set('cart', currentCart.join(','), { expires: 7 });
-    alert('Product added to cart!');
+    // Combine existing cart with new products
+    const updatedCart = [...currentCart, ...productToAdd];
+    
+    // Save the updated cart back to cookies
+    Cookies.set('cart', updatedCart.join(','), { expires: 7 }); // Expires in 7 days
+    
+    alert(`${quantity} product(s) added to cart!`);
   };
 
   const goBack = () => {
@@ -33,18 +48,58 @@ export default function Details() {
   }
 
   return (
-    <div className="details-container">
+    <div className="details-container container">
       <h1>{product.name}</h1>
-      <img 
-        src={`${import.meta.env.VITE_APP_HOST}/api/images/${product.filename}`} 
-        alt={product.name} 
-        style={{ width: '300px', height: 'auto', objectFit: 'cover' }} 
-      />
-      <p><strong>Description:</strong> {product.description}</p>
-      <p><strong>Cost: ${product.cost}</strong></p>
-      
-      <button onClick={addToCart} className="btn btn-primary">Add to Cart</button>
-      <button onClick={goBack} className="btn btn-secondary">Go Back</button>
+      <div className="row">
+        <div className="col-md-6">
+          <img 
+            src={`${import.meta.env.VITE_APP_HOST}/api/images/${product.filename}`} 
+            alt={product.name} 
+            className="img-fluid"
+            style={{ maxHeight: '400px', objectFit: 'cover' }} 
+          />
+        </div>
+        <div className="col-md-6">
+          <p><strong>Description:</strong> {product.description}</p>
+          <p><strong>Cost:</strong> ${product.cost.toFixed(2)}</p>
+          
+          <div className="quantity-selector d-flex align-items-center mb-3">
+            <button 
+              onClick={() => adjustQuantity(-1)} 
+              className="btn btn-sm btn-outline-secondary me-2"
+              disabled={quantity <= 1}
+            >
+              -
+            </button>
+            <span className="me-2">{quantity}</span>
+            <button 
+              onClick={() => adjustQuantity(1)} 
+              className="btn btn-sm btn-outline-secondary"
+            >
+              +
+            </button>
+          </div>
+
+          <div className="total-price mb-3">
+            <strong>Total:</strong> ${(product.cost * quantity).toFixed(2)}
+          </div>
+
+          <div className="action-buttons">
+            <button 
+              onClick={addToCart} 
+              className="btn btn-primary me-2"
+            >
+              Add to Cart
+            </button>
+            <button 
+              onClick={goBack} 
+              className="btn btn-secondary"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
