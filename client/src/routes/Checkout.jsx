@@ -33,7 +33,7 @@ export default function Checkout() {
 
     const fetchProducts = async () => {
       const uniqueCartItems = [...new Set(cart)];
-      const productPromises = uniqueCartItems.map(id => 
+      const productPromises = uniqueCartItems.map(id =>
         fetch(`${apiHost}/api/products/get/${id}`).then(response => response.json())
       );
 
@@ -48,7 +48,7 @@ export default function Checkout() {
 
     fetchProducts();
 
-    // Fetch user session
+    
     const fetchUserSession = async () => {
       const response = await fetch(`${apiHost}/api/users/getSession`, {
         method: 'GET',
@@ -66,7 +66,7 @@ export default function Checkout() {
     fetchUserSession();
   }, []);
 
-  // Calculate totals
+  
   const calculateTotals = () => {
     const subtotal = products.reduce((acc, product) => {
       const quantity = cartItems.filter(item => parseInt(item) === product.id).length;
@@ -79,12 +79,12 @@ export default function Checkout() {
     return { subtotal, tax, total };
   };
 
-  // Validate form data
+ 
   const validateForm = () => {
     let valid = true;
     const newErrors = {};
 
-    // Address validation
+   
     const addressFields = ['street', 'city', 'province', 'country', 'postal_code'];
     addressFields.forEach(field => {
       if (!address[field]) {
@@ -93,7 +93,7 @@ export default function Checkout() {
       }
     });
 
-    // Payment validation
+    
     if (!payment.credit_card || payment.credit_card.length !== 16) {
       newErrors.credit_card = 'Credit card number must be 16 digits.';
       valid = false;
@@ -107,7 +107,7 @@ export default function Checkout() {
       valid = false;
     }
 
-    // Cart validation
+    
     if (cartItems.length === 0) {
       newErrors.cart = 'Your cart is empty. Please add items to proceed.';
       valid = false;
@@ -117,7 +117,7 @@ export default function Checkout() {
     return valid;
   };
 
-  // Handle form change
+  
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
     setAddress((prevState) => ({
@@ -134,11 +134,11 @@ export default function Checkout() {
     }));
   };
 
-  // Handle purchase submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form before submitting
+   
     if (!validateForm()) return;
 
     const { subtotal, tax, total } = calculateTotals();
@@ -167,13 +167,15 @@ export default function Checkout() {
     });
 
     if (response.ok) {
-      navigate('/confirmation');
+      Cookies.remove('cart'); 
+      setCartItems([]); 
+      navigate('/confirmation'); 
     } else {
       console.error('Error during purchase:', await response.json());
     }
   };
 
-  // Render form fields
+  
   const renderFormFields = () => (
     <>
       <h2>Shipping Information</h2>
