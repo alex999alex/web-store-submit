@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,13 +26,8 @@ export default function Login() {
       localStorage.setItem('token', 'true'); 
       setIsLoggedIn(true);
 
-      
       const redirectTo = localStorage.getItem('redirectTo') || '/';
-
-      
       localStorage.removeItem('redirectTo');
-
-      
       navigate(redirectTo);
     } else {
       setLoginFail(true);
@@ -56,6 +51,10 @@ export default function Login() {
         </div>
         <button type="submit" className="btn btn-primary">Login</button>
       </form>
+
+      <div className="mt-3">
+        <p>Don't have an account? <Link to="/signup" className="btn btn-link">Sign up here</Link></p>
+      </div>
     </>
   );
 }
